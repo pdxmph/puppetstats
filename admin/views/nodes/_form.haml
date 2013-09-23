@@ -1,0 +1,61 @@
+- error = @node.errors.include?(:title)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :title, :class => 'control-label'
+  .controls
+    =f.text_field :title, :class => 'input-xlarge input-with-feedback', :autofocus => true
+    %span.help-inline=error ? f.error_message_on(:title, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:author_id)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :author_id, :class => 'control-label'
+  .controls
+    =f.text_field :author_id, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:author_id, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:taxo_type)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :taxo_type, :class => 'control-label'
+  .controls
+    =f.text_field :taxo_type, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:taxo_type, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:taxo_funnel)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :taxo_funnel, :class => 'control-label'
+  .controls
+    =f.text_field :taxo_funnel, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:taxo_funnel, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:taxo_theme)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :taxo_theme, :class => 'control-label'
+  .controls
+    =f.text_field :taxo_theme, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:taxo_theme, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:taxo_source)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :taxo_source, :class => 'control-label'
+  .controls
+    =f.text_field :taxo_source, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:taxo_source, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:pub_date)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :pub_date, :class => 'control-label'
+  .controls
+    =f.text_field :pub_date, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:pub_date, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:path)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :path, :class => 'control-label'
+  .controls
+    =f.text_field :path, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:path, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:nid)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :nid, :class => 'control-label'
+  .controls
+    =f.text_field :nid, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:nid, :class => 'text-error') : pat(:example)
+
+.form-actions
+  =f.submit pat(:save), :class => 'btn btn-primary'
+  &nbsp;
+  =f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
+  &nbsp;
+  =link_to pat(:cancel), url(:nodes, :index), :class => 'btn'

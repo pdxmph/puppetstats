@@ -1,0 +1,6 @@
+- @title = @node.title
+#show
+  .node
+    .title= @node.title
+    .date= time_ago_in_words(@post.pub_date || Time.now) + ' ago'
+%p= link_to 'View all nodes', url_for(:nodes, :index)

@@ -1,0 +1,33 @@
+!!! 5
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width"}
+    %title PuppetStats
+
+    = stylesheet_link_tag '/vendor/bootstrap/css/bootstrap.min.css'
+    :css
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    = stylesheet_link_tag '/vendor/bootstrap/css/bootstrap-responsive.min.css'
+    = stylesheet_link_tag '/stylesheets/ts_style.css'
+    = javascript_include_tag '/javascripts/jquery.js'
+    = javascript_include_tag '/vendor/bootstrap/js/bootstrap.min.js'
+    = javascript_include_tag '/javascripts/jquery.tablesorter.min.js'
+    = javascript_include_tag :application
+  %body
+
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+
+          %a.brand PuppetStats
+
+         
+    .container
+      = yield
