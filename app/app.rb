@@ -16,11 +16,8 @@ module Puppetstats
         render :haml, "%p This is a sample blog created to demonstrate how Padrino works!"
     end
 
-    get "/nodes/:year/:month" do
 
-      @nodes = Node.by_my(params[:month], params[:year])
-     render 'nodes/index'
-    end
+
       
     ##
     # Caching support
