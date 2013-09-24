@@ -1,0 +1,16 @@
+%table#sorttable.table.table-striped
+  %thead
+    %th Content
+    %th= "#{@age}-Day Views"
+
+  %tbody
+    - @nodes.each do |node|
+      %tr
+        %td 
+          ="#{node.title}" 
+          %br 
+          %small= "by #{node.author.name} on #{node.pub_date.strftime("%B %d")}"
+        %td= node.pageviews(@age)
+
+
+ 
