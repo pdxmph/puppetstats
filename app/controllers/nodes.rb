@@ -29,13 +29,22 @@ Puppetstats::App.controllers :nodes do
     render 'nodes/show'
   end
 
-  get '/nodes/:year/:month' do |n|
-    @nodes = Node.by_ym(params[:year],params[:month])
+  get ':year/:month' do
+    @nodes = Node.where('extract(month from pub_date) = ? AND extract(year from pub_date) = ?',params[:month],params[:year])
     render 'nodes/index'
   end
+
+  get '/leaderboard/:year/:month' do
+    @age = params["age"]
+    @nodes = Node.where('extract(month from pub_date) = ? AND extract(year from pub_date) = ?',params[:month],params[:year]).sort! { |a,b| b.pageviews(@age) <=> a.pageviews(@age) }
+    render 'nodes/leaderboard'
+  end
   
-  get '/nodes/fix/no_funnel' do |n|
+  get 'fix/no_funnel' do |n|
     @nodes = Node.no_funnel
     render 'nodes/index'
   end
+
+
+
 end
