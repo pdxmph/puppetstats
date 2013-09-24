@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 10) do
+ActiveRecord::Schema.define(:version => 12) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -45,10 +45,6 @@ ActiveRecord::Schema.define(:version => 10) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "author_name"
-    t.integer  "views_2"
-    t.integer  "views_7"
-    t.integer  "views_14"
-    t.integer  "views_30"
   end
 
   create_table "stats", :force => true do |t|
@@ -61,15 +57,6 @@ ActiveRecord::Schema.define(:version => 10) do
     t.string   "kind"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
-  end
-
-  create_table "users", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "kind"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "drupal_uid"
   end
 
 end
