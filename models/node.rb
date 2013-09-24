@@ -8,11 +8,19 @@ class Node < ActiveRecord::Base
   scope :no_source, where(:taxo_source =>    [nil,0])
   scope :no_type,  where(:taxo_type =>    [nil,0])
   scope :this_quarter, where('pub_date >= ? AND pub_date <= ?', Date.today.beginning_of_quarter, Date.today.end_of_quarter)
-
-
+  scope :by_month, lambda { |month,year|  
+    where('extract(month from pub_date) = ? AND extract(year from pub_date) = ?',month,year)
+  }
+  
+  
   def pageviews(period)
-     stat = self.stats.where(:period => period).first
-     return stat.pageviews
+    stat = self.stats.find(:first, :conditions => ['period = ?', period])
+    
+    if stat
+      return stat.pageviews
+    else
+      return 0
+    end
   end
   
   def bounce_rate(period)
