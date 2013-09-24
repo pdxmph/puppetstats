@@ -4,8 +4,10 @@ require File.expand_path("../../config/legato.rb", __FILE__)
 
 report_intervals = [2,7,14,30]
 
+puts "Authenticate ..."
 user = service_account_user
 @profile = user.profiles.select { |p| p.web_property_id == "UA-1537572-5" && p.name == "1 - puppetlabs.com"}.first
+
 
 class PostStats
   extend Legato::Model
@@ -28,20 +30,32 @@ def get_stats(path,pub_date,length)
     record.bounces += r.bounces.to_i
   end
 
-  record.bounce_rate = record.bounces.to_f/record.visits.to_f
+  unless record.bounces == 0 
+    record.bounce_rate = record.bounces.to_f/record.visits.to_f
+  else
+    record.bounce_rate = 0 
+  end
+
   return record
 end
 
-report_intervals.each do |i|
+report_intervals.each do |interval|
 
   nodes = Node.find(:all).select { |n| n.stats_from_period(interval) == 0 }  
   
   nodes.each do |n|
-    stat_record = get_stats(n.path,n.pub_date,interval)
-    stat = n.stats.create(:pageviews => stat_record.pageviews, 
+
+    if n.pub_date < Date.today - interval.days
+      puts "#{n.title} (#{interval})"
+      stat_record = get_stats(n.path[0,120],n.pub_date,interval)
+      puts stat_record
+      
+      stat = n.stats.new(:pageviews => stat_record.pageviews, 
                           :bounce_rate => stat_record.bounce_rate,
                           :visits => stat_record.visits,
                           :period => interval,
                           :kind => "period")  
+                          stat.save
+    end
   end
 end
