@@ -1,23 +1,7 @@
 Puppetstats::App.controllers :nodes do
   
-  # get :index, :map => '/foo/bar' do
-  #   session[:foo] = 'bar'
-  #   render 'index'
-  # end
-
-  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   'Maps to url '/foo/#{params[:id]}''
-  # end
-
-  # get '/example' do
-  #   'Hello world!'
-  # end
+  # I wouldn't count on any of this doing much right now. Still modeling reports via 
+  # scripts and filling out methods
   
   get :index do
     @nodes = Node.all(:order => 'pub_date desc')
@@ -40,11 +24,25 @@ Puppetstats::App.controllers :nodes do
     render 'nodes/leaderboard'
   end
   
-  get 'fix/no_funnel' do |n|
+  get 'fix/funnel' do 
     @nodes = Node.no_funnel
     render 'nodes/index'
   end
 
+  get 'fix/theme' do 
+    @nodes = Node.no_theme
+    render 'nodes/index'
+  end
+
+  get 'fix/source' do 
+    @nodes = Node.no_source
+    render 'nodes/index'
+  end
+
+  get 'fix/type' do 
+    @nodes = Node.no_type
+    render 'nodes/index'
+  end
 
 
 end
