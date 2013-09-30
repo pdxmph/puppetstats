@@ -1,3 +1,6 @@
+# This was a one-off to convert the stats from columns in the node table 
+# to the standalone Stat model
+
 require File.expand_path("../../config/boot.rb", __FILE__)
 
 nodes = Node.all
