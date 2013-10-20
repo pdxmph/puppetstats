@@ -13,8 +13,9 @@ class Stat < ActiveRecord::Base
       
       
       
-  # Find all the "lifetime" stats 
+  # Find each kind of stat (e.g. lifetime, period)
   scope :lifetime, where(:kind => "lifetime")
+  scope :period, where(:kind => "period")
 
 
   # When was the stat last updated in days? Used to find "lifetime" stats 
