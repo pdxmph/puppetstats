@@ -14,6 +14,7 @@ source 'https://rubygems.org'
 gem 'rake'
 
 # Component requirements
+gem 'will_paginate', '~>3.0'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'haml'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
@@ -36,3 +37,5 @@ gem 'legato'
 gem 'google-api-client'
 gem 'oauth2'
 gem 'mysql2'
+gem "ruby-readability", :require => 'readability'
+gem "thin"

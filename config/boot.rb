@@ -10,7 +10,7 @@ Bundler.require(:default, PADRINO_ENV)
 ##
 # ## Enable devel logging
 #
-Padrino::Logger::Config[:development][:log_level]  = :warn
+Padrino::Logger::Config[:development][:log_level]  = :error
 # Padrino::Logger::Config[:development][:log_static] = true
 #
 # ## Configure your I18n
@@ -34,6 +34,11 @@ Padrino::Logger::Config[:development][:log_level]  = :warn
 # Add your before (RE)load hooks here
 #
 Padrino.before_load do
+  require 'will_paginate'
+  require 'will_paginate/active_record'
+  require 'will_paginate/view_helpers/sinatra'
+  include WillPaginate::Sinatra::Helpers
+    require File.expand_path("../../config/legato.rb", __FILE__)
 end
 
 ##
