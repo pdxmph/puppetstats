@@ -7,10 +7,15 @@ nodes = Node.by_year(2013).by_quarter(3).order("pub_date DESC")
 
 employee_counts = Hash.new(0)
 
+report = []
 nodes.by_source("employee").each do |n|
   
   pageviews = get_realtime_views(n)
     
-  puts "#{n.title} by #{n.author.name} (#{pageviews})"
+  report <<  "#{pageviews}|#{n.title}|#{n.author.name}"
+  
 end
   
+report.sort.each do |r|
+  puts r
+end

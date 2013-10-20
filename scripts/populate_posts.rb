@@ -4,10 +4,11 @@ require 'json'
 require 'net/http'
 require 'uri'
 require 'active_record'
-require "active_support"
-require 'ostruct'
+require 'active_support'
 
-uri = URI.parse("http://puppetlabs.com/data/basic-post-data")
+lookback_date = Date.today - 30.days
+
+uri = URI.parse("http://puppetlabs.com/data/basic-post-data?created=#{lookback_date}")
  
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Get.new(uri.request_uri)
