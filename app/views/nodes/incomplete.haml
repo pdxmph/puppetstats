@@ -1,0 +1,18 @@
+%table#sorttable.table.table-striped
+  %thead
+    %th Content
+    %th Date
+    %th Author
+  %tbody
+    - @nodes.each do |node|
+      %tr
+        %td 
+          %a{:href => "/nodes/#{node.id}"}
+            = node.title
+        %td
+          = node.pub_date
+        %td 
+          = node.author.name
+
+
+=will_paginate @nodes

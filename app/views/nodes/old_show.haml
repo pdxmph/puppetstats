@@ -2,8 +2,9 @@
 #show
   .node
     %h1{:style => "font-size: 24px;"}= @node.title
-    %p= "by #{@node.author.name} on #{@node.pub_date}"
-    %form{:name => "taxonomize", :action => "/nodes/update/#{@node.id}", :method => "post"}
+    %p= "by #{@node.author.name}"
+    
+    %form{:name => "taxonomize", :action => "/node/fix/#{@node.id}", :method => "post"}
       %input{:type => "hidden", :name=> "_method", :value => "put"}
     
       .row
@@ -42,8 +43,10 @@
               %br
 
           %br    
+          .btn-group
             %button.btn= "Save"
-          
+            %a.btn{:href => "/node/incomplete"}
+              ="Skip"
 
     .row
       .span4
@@ -54,5 +57,5 @@
         
 :javascript
   $( document ).ready(function() {
-  $("#preview_text").load("/nodes/preview/#{@node.id}");
+  $("#preview_text").load("/node/preview/#{@node.id}");
   });

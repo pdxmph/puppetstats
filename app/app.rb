@@ -1,13 +1,16 @@
 module Puppetstats
   class App < Padrino::Application
+  register WillPaginate::Sinatra
     use ActiveRecord::ConnectionAdapters::ConnectionManagement
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers
-
+    register WillPaginate::Sinatra
+    
     enable :sessions
 
 
+  
     get "/" do 
       "Hello World!"
     end
