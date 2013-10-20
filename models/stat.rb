@@ -1,6 +1,18 @@
 class Stat < ActiveRecord::Base
   belongs_to :node
 
+  after_initialize :init
+
+  def init
+    self.pageviews  ||= 0
+    self.bounce_rate  ||= 0
+    self.visits  ||= 0
+    self.new_visits  ||= 0
+    self.percent_new_visits  ||= 0.0
+  end
+      
+      
+      
   # Find all the "lifetime" stats 
   scope :lifetime, where(:kind => "lifetime")
 

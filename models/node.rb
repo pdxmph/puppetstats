@@ -1,22 +1,24 @@
-
 class Node < ActiveRecord::Base
-  require File.expand_path("../../config/legato.rb", __FILE__)
   belongs_to :author
   has_many :stats
+  has_many :refers
 
   # taxonomical considerations  
-  scope :no_funnel, where(:taxo_funnel =>  [nil,0]) 
-  scope :no_theme,  where(:taxo_theme =>   [nil,0]) 
-  scope :no_source, where(:taxo_source =>    [nil,0])
-  scope :no_type,  where(:taxo_type =>    [nil,0])
-
+  scope :no_funnel, where(:taxo_funnel =>  "") 
+  scope :no_theme,  where(:taxo_theme =>   "") 
+  scope :no_source, where(:taxo_source =>    "")
+  scope :no_type,  where(:taxo_type =>    "")
+  scope :incomplete_taxo, where('taxo_source = ? OR taxo_theme = ? OR taxo_funnel = ?',"","","")
+  scope :incomplete, lambda { |field| where("#{field} =  ?",'') }
+  
+  
   # finding things by period or time
   scope :this_quarter, where('pub_date >= ? AND pub_date <= ?', Date.today.beginning_of_quarter, Date.today.end_of_quarter)
   scope :by_month, lambda { |month|  where('extract(month from pub_date) = ?',month)}
   scope :by_year, lambda { |year| where('extract(year from pub_date) = ?',year) }
-  scope :by_quarter, lambda { |quarter| where('extract(month from pub_date) <= ? AND extract(month from pub_date) >= ?',(quarter * 3 ), (quarter * 3 -2)) }
+  scope :by_quarter, lambda { |quarter| where('extract(month from pub_date) <= ? AND extract(month from pub_date) >= ?',(quarter.to_i * 3 ), (quarter.to_i * 3-2)) }
   scope :past_ten, where('pub_date > ?', Date.today - 14.days)  
-  
+
   
   # Find by "employee", "staff_writer" etc. This will fall away once we have the taxonomy back-ported
   def self.by_source(source)
@@ -74,5 +76,8 @@ class Node < ActiveRecord::Base
   def realtime_lifetime
     get_realtime_views(self)
   end
-  
+
+  def has_stats?(age)
+    self.stats.exists?(:period => age) ? true : false
+  end
 end
