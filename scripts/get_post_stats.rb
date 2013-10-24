@@ -8,7 +8,7 @@ report_intervals.each do |interval|
   puts "Checking #{interval}-day stats on all nodes ..."
   
   Node.all.each do |n|
-    next if n.has_stats?(interval)
+    next if n.has_stats?(interval) || n.issue == true
     if n.pub_date < Date.today - interval.days - 1.day 
       puts "#{n.title} (#{interval}) id: #{n.id}"
       update_node_stats(n,interval,"period")

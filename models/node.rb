@@ -3,7 +3,7 @@ class Node < ActiveRecord::Base
   has_many :stats
   has_many :refers
 
-  # taxonomical considerations  
+  # taxonomical maintenance
   scope :no_funnel, where(:taxo_funnel =>  "") 
   scope :no_theme,  where(:taxo_theme =>   "") 
   scope :no_source, where(:taxo_source =>    "")
@@ -11,6 +11,8 @@ class Node < ActiveRecord::Base
   scope :incomplete_taxo, where('taxo_source = ? OR taxo_theme = ? OR taxo_funnel = ?',"","","")
   scope :incomplete, lambda { |field| where("#{field} =  ?",'') }
   
+  # taxonomical scopes
+#  scope :mofu, where(:taxo_type => where())
   
   # finding things by period or time
   scope :this_quarter, where('pub_date >= ? AND pub_date <= ?', Date.today.beginning_of_quarter, Date.today.end_of_quarter)
@@ -18,8 +20,8 @@ class Node < ActiveRecord::Base
   scope :by_year, lambda { |year| where('extract(year from pub_date) = ?',year) }
   scope :by_quarter, lambda { |quarter| where('extract(month from pub_date) <= ? AND extract(month from pub_date) >= ?',(quarter.to_i * 3 ), (quarter.to_i * 3-2)) }
   scope :past_ten, where('pub_date > ?', Date.today - 14.days)  
+  scope :in_the_past, lambda { |days|  where('pub_date > ?', Date.today - days.days)}
 
-  
   # Find by "employee", "staff_writer" etc. This will fall away once we have the taxonomy back-ported
   def self.by_source(source)
     Node.includes(:author).where('authors.kind = ?',source)
@@ -40,10 +42,20 @@ class Node < ActiveRecord::Base
     end
   end
   
+  def stat_record(period)
+    stat = self.stats.where(['period = ? AND kind = ?',period,"period"]).first
+    return stat
+  end
+
   # Return the bounce rate of a node at the given age
   def bounce_rate(period)
      stat = self.stats.where(:period => period).first
      return stat.bounce_rate
+  end
+  
+  def percent_new_visits(period)
+     stat = self.stats.where(:period => period).first
+     return stat.percent_new_visits
   end
 
   # Return the visits to a node at the given age
@@ -67,6 +79,15 @@ class Node < ActiveRecord::Base
     end
   end
   
+  # Determine if the lifetime refers for a given period are fresh
+  def has_current_lifetime_refers?
+    if refer = self.refers.find(:first, :conditions => ["kind = ?","lifetime"])
+      return refer.current?
+    else
+      return false
+    end
+  end
+  
   # Show lifetime views for a stat as of last general gather
   def lifetime_views
     return self.stats.where(:kind => "lifetime").first.pageviews
@@ -79,5 +100,15 @@ class Node < ActiveRecord::Base
 
   def has_stats?(age)
     self.stats.exists?(:period => age) ? true : false
+  end
+  
+  def self.period_report(age)
+    report = OpenStruct.new
+    nodes = Node.in_the_past(age).includes(:stats).where(['stats.kind = ? AND stats.period = ?', "period",7])
+    report.total_nodes = nodes.size
+    report.average_views = nodes.average("stats.pageviews").to_i
+    report.total_views = nodes.sum("stats.pageviews").to_i
+    report.average_percent_new_visitors = nodes.average("stats.percent_new_visits").to_f
+    return report
   end
 end

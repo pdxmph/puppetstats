@@ -1,10 +1,11 @@
 %table#sorttable.table.table-striped
   %thead
     %th Content
-    %th 30 Day
-    %th 14 Day
-    %th 7 Day
     %th 2 Day
+    %th 7 Day
+    %th 14 Day
+    %th 30 Day
+   
   %tbody
     - @nodes.each do |node|
       %tr
@@ -12,10 +13,8 @@
           ="#{node.title}" 
           %br 
           %small= "by #{node.author.name} on #{node.pub_date.strftime("%B %d")}"
-        %td= node.pageviews(30)
-        %td= node.pageviews(14)
+        %td= node.pageviews(2)
         %td= node.pageviews(7)
-        %td= node.pageviews(2)        
-
+        %td= node.pageviews(14)
  
 =will_paginate @nodes

@@ -10,6 +10,12 @@ Puppetstats::App.controllers :nodes do
     Readability::Document.new(source, :tags => %w{div p strong em h3 h4 h2 ul li code pre br}).content
   end
   
+  get '/recent' do 
+    @nodes = Node.where('pub_date > ?', Date.today - 15.days).order("pub_date DESC")
+    @report = Node.period_report(30)
+    render 'nodes/recent'
+  end
+  
   get '/incomplete' do 
     @nodes = Node.incomplete_taxo.paginate(:page => params[:page], :per_page => 30)
     render 'nodes/incomplete'

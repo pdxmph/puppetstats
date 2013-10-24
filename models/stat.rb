@@ -11,12 +11,14 @@ class Stat < ActiveRecord::Base
     self.percent_new_visits  ||= 0.0
   end
       
+  
       
       
   # Find each kind of stat (e.g. lifetime, period)
   scope :lifetime, where(:kind => "lifetime")
   scope :period, where(:kind => "period")
 
+  
 
   # When was the stat last updated in days? Used to find "lifetime" stats 
   # that need to be refreshed via the current? method. We could move this 
@@ -50,6 +52,6 @@ class Stat < ActiveRecord::Base
       false
     end
   end
-
+  
 
 end

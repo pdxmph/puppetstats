@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 18) do
+ActiveRecord::Schema.define(:version => 21) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 18) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "author_name"
+    t.boolean  "issue"
   end
 
   create_table "refers", :force => true do |t|
@@ -52,12 +53,14 @@ ActiveRecord::Schema.define(:version => 18) do
     t.integer  "visits"
     t.integer  "newvisits"
     t.integer  "bounces"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.integer  "node_id"
     t.integer  "period"
     t.float    "bounce_rate"
     t.integer  "pageviews"
+    t.float    "percent_new_visits"
+    t.string   "kind"
   end
 
   create_table "stats", :force => true do |t|

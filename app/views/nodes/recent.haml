@@ -1,0 +1,23 @@
+.row
+  .span10
+    %h2 Previous 15 Days Posts
+    %table#sorttable.table.table-striped
+      %thead
+        %th Content
+        %th Lifetime
+        %th 2 
+        %th 7
+
+      %tbody
+        - @nodes.each do |node|
+          %tr
+            %td 
+              ="#{node.title}" 
+              %br 
+              %small= "by #{node.author.name} on #{node.pub_date.strftime("%B %d")}"
+            %td= node.lifetime_views
+            %td= node.pageviews(2)
+            %td= node.pageviews(7)
+
+
+
