@@ -3,17 +3,17 @@ require File.expand_path("../../config/legato.rb", __FILE__)
 
 report_intervals = [2,7,14,30,60,90,180,365]
 
-# report_intervals.each do |interval|
-#   puts "Checking #{interval}-day refer stats on all nodes ..."
-#   
-#   Node.all.each do |n|
-#     next if n.has_stats?(interval) || n.issue == true
-#     if n.pub_date < Date.today - interval.days - 1.day 
-#       puts "#{n.title} (#{interval}) id: #{n.id}"
-#       update_node_refers(n,interval,"period")
-#     end
-#   end
-# end
+report_intervals.each do |interval|
+  puts "Checking #{interval}-day refer stats on all nodes ..."
+  
+  Node.all.each do |n|
+    next if n.has_stats?(interval) || n.issue == true
+    if n.pub_date < Date.today - interval.days - 1.day 
+      puts "#{n.title} (#{interval}) id: #{n.id}"
+      update_node_refers(n,interval,"period")
+    end
+  end
+end
 
 puts "Checking lifetime refers on all nodes ..."
 
