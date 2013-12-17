@@ -1,0 +1,78 @@
+desc "Import nodes from Drupal"
+task :import_nodes do
+  puts "Importing nodes from Drupal." 
+  `./populate_posts.rb`
+  puts "Imported."
+end
+
+desc "Update stats for all nodes"
+task :update_stats do
+  puts "Updating node stats ..."
+  `./get_post_stats.rb`
+  puts "Updated."
+end
+
+desc "Update refer stats for all nodes"
+task :update_refers do
+  puts "Updating refer stats ..."
+  `./get_post_refers.rb`
+  puts "Updated."
+end
+
+desc "Make a 15-day report and send it to Evernote"
+task :report do 
+  puts "Generating the report ..."
+  `ruby recent_posts.rb|~/bin/geeknote/geeknote.py create --title 'Recent Posts Report'`
+  puts "Done."
+end
+
+desc "Import all nodes, then update all stats and refers"
+task :update_all => [:import_nodes, :update_stats, :update_refers] do
+  puts "Imported all nodes and updated all stats" 
+end
+
+desc "Import and update everything, then report"
+task :all => [:update_all, :report] do 
+  puts "Generated report"
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

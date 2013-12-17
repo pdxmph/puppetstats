@@ -37,5 +37,6 @@ gem 'legato'
 gem 'google-api-client'
 gem 'oauth2'
 gem 'mysql2'
-gem "ruby-readability", :require => 'readability'
-gem "thin"
+gem 'ruby-readability', :require => 'readability'
+gem 'thin'
+gem 'trollop'

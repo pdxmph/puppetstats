@@ -34,6 +34,7 @@ module Puppetstats
     end
 
     access_control.roles_for :admin do |role|
+    role.project_module :authors, '/authors'
     role.project_module :nodes, '/nodes'
     role.project_module :accounts, '/accounts'
     end

@@ -52,6 +52,18 @@
   .controls
     =f.text_field :nid, :class => 'input-xlarge input-with-feedback'
     %span.help-inline=error ? f.error_message_on(:nid, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:author_name)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :author_name, :class => 'control-label'
+  .controls
+    =f.text_field :author_name, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:author_name, :class => 'text-error') : pat(:example)
+- error = @node.errors.include?(:issue)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :issue, :class => 'control-label'
+  .controls
+    =f.check_box :issue, :class => 'input-xlarge input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:issue, :class => 'text-error') : pat(:example)
 
 .form-actions
   =f.submit pat(:save), :class => 'btn btn-primary'

@@ -38,6 +38,8 @@
         %th.header= mat(:node, :nid)
         %th.header= mat(:node, :created_at)
         %th.header= mat(:node, :updated_at)
+        %th.header= mat(:node, :author_name)
+        %th.header= mat(:node, :issue)
         %th.header.list-row-action-header
 
     %tbody
@@ -57,6 +59,8 @@
           %td.list-column=node.nid
           %td.list-column=time_ago_in_words node.created_at
           %td.list-column=time_ago_in_words node.updated_at
+          %td.list-column=node.author_name
+          %td.list-column= node.issue ? tag_icon(:ok) : tag_icon(:remove)
           %td.list-column.list-row-action
             .list-row-action-wrapper
               =link_to tag_icon(:edit), :href => url(:nodes, :edit, :id => node.id), :rel => :tooltip, :title => "#{pat(:edit)} node", :class => 'list-row-action-wrapper-link'

@@ -14,6 +14,12 @@ class Node < ActiveRecord::Base
   # taxonomical scopes
 #  scope :mofu, where(:taxo_type => where())
   
+  scope :funnel, lambda { |taxo| where('taxo_funnel like ?', "%#{taxo}%") }
+  scope :theme, lambda { |taxo| where('taxo_theme like ?', "%#{taxo}%") }
+  scope :source, lambda { |taxo| where('taxo_source like ?', "%#{taxo}%") }
+    
+#    User.where("name like ?", "%#{params[:query]}%").to_sql
+    
   # finding things by period or time
   scope :this_quarter, where('pub_date >= ? AND pub_date <= ?', Date.today.beginning_of_quarter, Date.today.end_of_quarter)
   scope :by_month, lambda { |month|  where('extract(month from pub_date) = ?',month)}
@@ -100,6 +106,10 @@ class Node < ActiveRecord::Base
 
   def has_stats?(age)
     self.stats.exists?(:period => age) ? true : false
+  end
+  
+  def has_refers?(age)
+    self.refers.exists?(:period => age, :kind => "period") ? true : false
   end
   
   def self.period_report(age)
