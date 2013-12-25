@@ -1,4 +1,4 @@
-require 'ostruct'
+#!/usr/bin/env ruby
 require File.expand_path("../../config/boot.rb", __FILE__)
 require File.expand_path("../../config/legato.rb", __FILE__)
 
@@ -19,7 +19,7 @@ end
 puts "Checking lifetime stats on all nodes ..."
 
 Node.all.each do |n|
-  next if n.has_current_lifetime? #|| n.pub_date < Date.today - 30.days
+  next if n.has_current_lifetime? || n.pub_date < Date.today - 30.days
   age = (Date.today - n.pub_date).to_i
   puts "Update #{n.title} ... "
   update_node_stats(n,age,"lifetime")

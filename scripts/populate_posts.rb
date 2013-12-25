@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require File.expand_path("../../config/boot.rb", __FILE__)
 
 require 'json'
