@@ -40,7 +40,7 @@ class Node < ActiveRecord::Base
   
   # Return the pageviews of a node, generally gathered at 2,7,14 30 and every 30 days thereafter
   def pageviews(period)
-    stat = self.stats.find(:first, :conditions => ['period = ?', period])
+    stat = self.stats.find(:first, :conditions => ['period = ? AND kind = ?', period, "period"])
     if stat
       return stat.pageviews
     else
@@ -98,6 +98,14 @@ class Node < ActiveRecord::Base
   def lifetime_views
     return self.stats.where(:kind => "lifetime").first.pageviews
   end
+
+  def lifetime_bounce_rate
+    return self.stats.where(:kind => "lifetime").first.bounce_rate
+  end
+
+  def lifetime_percent_new_visits
+    return self.stats.where(:kind => "lifetime").first.percent_new_visits
+  end
   
   # Show lifetime views for a stat as of right now
   def realtime_lifetime
@@ -121,4 +129,19 @@ class Node < ActiveRecord::Base
     report.average_percent_new_visitors = nodes.average("stats.percent_new_visits").to_f
     return report
   end
+
+  def self.quarterly_period_report(quarter,year,age)
+    report = OpenStruct.new
+    nodes = Node.by_quarter(quarter).by_year(year).includes(:stats).where(['stats.kind = ? AND stats.period = ?', "period",age])
+    report.total_nodes = nodes.size
+    report.average_views = nodes.average("stats.pageviews").to_i
+    report.total_views = nodes.sum("stats.pageviews").to_i
+    report.average_percent_new_visitors = nodes.average("stats.percent_new_visits").to_f
+    return report
+  end
+
+  def url
+    return "http://puppetlabs.com#{path}"
+  end
 end
+
